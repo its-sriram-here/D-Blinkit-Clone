@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blinkit Clone - 𝙎𝙧𝙞𝙧𝙖𝙢</title>
+    <link rel="icon" href="Sriram2.jpg">
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS for Blinkit Look and Feel */
+        :root {
+            --blinkit-primary: #53B175;
+            --blinkit-text: #181725;
+            --blinkit-gray: #7C7C7C;
+            --blinkit-light-gray: #F2F3F2;
+            --blinkit-border: #E2E2E2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            color: var(--blinkit-text);
+        }
+
+        /* Add padding to body to prevent content from being hidden by the bottom nav on mobile */
+        @media (max-width: 991.98px) {
+            body {
+                padding-bottom: 70px;
+            }
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+        
+        /* Header */
+        .main-header {
+            border-bottom: 1px solid var(--blinkit-border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 1000;
+        }
+
+        .blinkit-logo svg {
+            width: 130px;
+            height: auto;
+        }
+        
+        .location-wrapper {
+            cursor: pointer;
+        }
+
+        .location-wrapper h2 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .location-wrapper p {
+            font-size: 0.9rem;
+            color: var(--blinkit-gray);
+            margin-bottom: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-bar {
+            background-color: var(--blinkit-light-gray);
+            border-radius: 12px;
+            border: 1px solid var(--blinkit-light-gray);
+        }
+
+        .search-bar .form-control {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+        }
+        
+        .search-bar .form-control::placeholder {
+            color: var(--blinkit-gray);
+        }
+
+        .header-actions .btn {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .cart-btn {
+            background-color: var(--blinkit-primary);
+            color: white;
+            border-radius: 8px;
+        }
+        .cart-btn:hover {
+            background-color: #469b65;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding-top: 20px;
+        }
+        @media (min-width: 992px) {
+            .hero-section {
+                padding: 20px 0;
+            }
+        }
+        .hero-section img {
+            border-radius: 16px;
+        }
+
+        /* Categories Section */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .category-grid .card {
+            border: 1px solid var(--blinkit-border);
+            border-radius: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            background-color: #F8F8F8;
+        }
+        
+        .category-grid .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .category-grid .card-body {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .category-grid .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        /* Product Card */
+        .product-card {
+            border: 1px solid var(--blinkit-border);
+            border-radius: 12px;
+            padding: 15px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.2s;
+        }
+        .product-card:hover {
+             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .product-card-img {
+            max-height: 140px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        
+        .product-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            flex-grow: 1;
+        }
+        
+        .product-weight {
+            font-size: 0.8rem;
+            color: var(--blinkit-gray);
+            margin-bottom: 10px;
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-price {
+            font-weight: 700;
+        }
+        
+        .add-btn {
+            color: var(--blinkit-primary);
+            border: 1px solid var(--blinkit-primary);
+            font-weight: 600;
+            padding: 8px 24px;
+            border-radius: 8px;
+            background-color: #F2FAF5;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .add-btn:hover {
+            background-color: var(--blinkit-primary);
+            color: white;
+        }
+
+        /* Cart Page */
+        .cart-summary {
+            border: 1px solid var(--blinkit-border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        /* Payment Page */
+        .payment-options .form-check-label {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--blinkit-border);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .payment-options .form-check-input {
+            margin-top: 0;
+            margin-left: -1.25rem;
+        }
+
+        .payment-options .form-check-input:checked + .form-check-label {
+            background-color: #F2FAF5;
+            border-color: var(--blinkit-primary);
+        }
+        
+        .payment-options i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+        
+        /* Footer */
+        .main-footer {
+            background-color: var(--blinkit-light-gray);
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+        
+        .footer-links h5 {
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li a {
+            color: var(--blinkit-gray);
+            text-decoration: none;
+            line-height: 2;
+            transition: color 0.2s;
+        }
+        
+        .footer-links li a:hover {
+            color: var(--blinkit-text);
+        }
+        
+        .social-links a {
+            color: var(--blinkit-text);
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        /* GPay Success Modal */
+        .gpay-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gpay-modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+
+        .gpay-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+
+        .gpay-paid-to {
+            font-size: 1rem;
+            color: var(--blinkit-gray);
+            margin-bottom: 25px;
+        }
+
+        .gpay-details {
+            background-color: #f7f7f7;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+
+        .gpay-details p {
+            margin: 0;
+        }
+        .gpay-hr {
+            margin: 10px 0;
+            border-top: 1px solid #eee;
+        }
+
+        /* Checkmark animation */
+        .gpay-checkmark-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+        .gpay-checkmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 4;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #53B175;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+        .gpay-checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 4;
+            stroke-miterlimit: 10;
+            stroke: #53B175;
+            fill: none;
+            animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        .gpay-checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+        }
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+        @keyframes scale {
+            0%, 100% { transform: none; }
+            50% { transform: scale3d(1.1, 1.1, 1); }
+        }
+        @keyframes fill {
+            100% { box-shadow: inset 0px 0px 0px 50px #53B175; }
+        }
+
+        /* Mobile Bottom Nav */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+        }
+        .mobile-bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--blinkit-gray);
+            cursor: pointer;
+            flex-grow: 1;
+        }
+        .mobile-bottom-nav-item i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+        .mobile-bottom-nav-item.active {
+            color: var(--blinkit-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-4">
+                    <a href="#" class="blinkit-logo" onclick="navigateTo('home')">
+                        <svg viewBox="0 0 240 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M49.23 4.86C45.39 4.86 42.18 7.47 42.18 11.64C42.18 15.81 45.39 18.42 49.23 18.42C52.41 18.42 54.81 16.5 55.44 13.92H49.23C48.66 14.94 47.79 15.6 46.86 15.6C45.81 15.6 45.09 14.82 45.09 13.62H55.83C55.89 13.23 55.92 12.72 55.92 12.15C55.92 7.74 52.95 4.86 49.23 4.86ZM49.2 7.71C51.27 7.71 52.89 9.3 52.98 11.37H45.42C46 9.12 47.43 7.71 49.2 7.71Z" fill="#F86A03"></path>
+                            <path d="M58.33 5.1H61.21V18.15H58.33V5.1Z" fill="#F86A03"></path>
+                            <path d="M64.44 5.1H67.32V15.42C67.32 17.22 68.61 18.42 70.35 18.42C72.09 18.42 73.38 17.22 73.38 15.42V5.1H76.26V15.27C76.26 18.9 73.65 21 70.35 21C67.05 21 64.44 18.9 64.44 15.27V5.1Z" fill="#F86A03"></path>
+                            <path d="M88.19 5.1H91.07V8H88.19V5.1Z" fill="#F86A03"></path>
+                            <path d="M88.19 10.41H91.07V18.15H88.19V10.41Z" fill="#F86A03"></path>
+                            <path d="M93.71 5.1H96.59V18.15H93.71V5.1Z" fill="#F86A03"></path>
+                            <path d="M100.1 18.15L104.93 5.1H108.11L103.28 18.15H100.1Z" fill="#F86A0a3"></path>
+                            <path d="M37.8 29.85C37.8 26.64 35.19 24.03 31.98 24.03C28.77 24.03 26.16 26.64 26.16 29.85C26.16 33.06 28.77 35.67 31.98 35.67C35.19 35.67 37.8 33.06 37.8 29.85ZM29.04 29.85C29.04 28.23 30.33 26.94 31.98 26.94C33.63 26.94 34.92 28.23 34.92 29.85C34.92 31.47 33.63 32.76 31.98 32.76C30.33 32.76 29.04 31.47 29.04 29.85Z" fill="#54B258"></path>
+                            <path d="M57.69 29.7C57.69 28.08 56.4 26.79 54.75 26.79C53.1 26.79 51.81 28.08 51.81 29.7C51.81 31.32 53.1 32.61 54.75 32.61C56.4 32.61 57.69 31.32 57.69 29.7ZM54.75 24C51.54 24 48.93 26.61 48.93 29.82C48.93 33.03 51.54 35.64 54.75 35.64C57.96 35.64 60.57 33.03 60.57 29.82C60.57 26.61 57.96 24 54.75 24Z" fill="#54B258"></path>
+                            <path d="M63.87 24.27H66.75V35.4H63.87V24.27Z" fill="#54B258"></path>
+                            <path d="M78.81 32.52C78.81 34.23 77.52 35.49 75.84 35.49C74.16 35.49 72.87 34.23 72.87 32.52V24.27H69.99V32.37C69.99 35.85 72.6 38.31 75.84 38.31C79.08 38.31 81.69 35.85 81.69 32.37V24.27H78.81V32.52Z" fill="#54B258"></path>
+                            <path d="M96.48 24.27H99.36V27.06H96.48V24.27Z" fill="#54B258"></path>
+                            <path d="M96.48 29.67H99.36V35.4H96.48V29.67Z" fill="#54B258"></path>
+                            <path d="M102 24.27H104.88V35.4H102V24.27Z" fill="#54B258"></path>
+                            <path d="M108.48 35.4L113.31 24.27H116.49L111.66 35.4H108.48Z" fill="#54B258"></path>
+                            <path d="M22.8 24.87C23.58 24.87 24.21 24.21 24.18 23.46C23.85 16.95 18.63 11.73 12.12 11.43C5.19 11.1 0 16.32 0 22.86C0 29.79 5.22 35.01 11.73 34.68C18.42 34.32 23.67 29.28 23.97 22.62C24 22.14 23.61 21.75 23.13 21.75H12.09C11.55 21.75 11.13 22.2 11.13 22.71C11.13 24.54 12.63 26.04 14.46 26.04H19.02C18.93 28.14 17.22 29.79 15.12 29.85H14.1C13.56 29.85 13.14 30.3 13.14 30.81C13.14 31.32 13.56 31.77 14.1 31.77H15.12C18.33 31.71 20.88 29.1 20.97 25.92H14.46C11.61 25.92 9.27 23.58 9.27 20.73C9.27 17.88 11.61 15.54 14.46 15.54H21.3C19.86 13.53 17.37 12.63 14.82 13.23C12.33 13.8 10.53 15.69 9.9 18.15C9.75 18.66 9.18 18.93 8.67 18.78C8.16 18.63 7.89 18.06 8.04 17.55C8.94 14.28 11.64 11.91 14.94 11.31C18.21 10.74 21.45 11.79 23.49 14.16C23.94 14.67 23.7 15.51 23.07 15.63C22.62 15.72 22.2 15.39 22.08 14.97C20.64 13.41 18.51 12.51 16.29 12.6C13.92 12.69 11.91 14.1 11.1 16.14H14.46C15.93 16.14 17.13 17.34 17.13 18.81C17.13 20.28 15.93 21.48 14.46 21.48H10.2C10.35 19.35 12.03 17.7 14.1 17.7H15.12C15.66 17.7 16.08 17.25 16.08 16.74C16.08 16.23 15.66 15.78 15.12 15.78H14.1C11.01 15.84 8.49 18.57 8.7 21.66C8.88 24.54 11.22 26.85 14.1 26.85H21.93C21.84 24.51 20.01 22.71 17.79 22.71H12.09C12.09 23.85 22.8 24.87 22.8 24.87Z" fill="#54B258"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-8">
+                    <div class="location-wrapper" data-bs-toggle="modal" data-bs-target="#locationModal">
+                        <h2 id="delivery-time">Delivery in 11 minutes</h2>
+                        <p id="location-text">Erode, Tamil Nadu, India</p>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="input-group search-bar">
+                        <span class="input-group-text bg-transparent border-0"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search for 'atta'">
+                    </div>
+                </div>
+                <div class="col-lg-2 d-none d-lg-flex justify-content-end header-actions">
+                     <button class="btn" onclick="navigateTo('cart')">
+                        <i class="fas fa-shopping-cart me-2"></i>My Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Location Change Modal -->
+    <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="locationModalLabel">Change Location</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="location-input" class="form-control" placeholder="Enter your city, state">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn cart-btn" onclick="updateLocation()">Save Location</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GPay Success Modal -->
+    <div id="gpay-success-modal" class="gpay-modal">
+        <div class="gpay-modal-content">
+            <div class="gpay-checkmark-container">
+                <svg class="gpay-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="gpay-checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="gpay-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            <h2 id="gpay-amount" class="gpay-amount">₹0.00</h2>
+            <p class="gpay-paid-to">Paid to Blinkit</p>
+            <div class="gpay-details">
+                <p id="gpay-datetime">September 5, 2025, 8:02 PM</p>
+                <hr class="gpay-hr">
+                <p>Transaction ID: <span id="gpay-txn-id">Blinkit-XXXXXXXX</span></p>
+            </div>
+            <button class="btn btn-dark mt-4" onclick="closeGpayModalAndReset()">Done</button>
+        </div>
+    </div>
+    
+    <main class="container">
+        <div id="add-to-cart-message" class="alert alert-info" style="display: none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 2000; width: auto;">
+            Item added to cart!
+        </div>
+
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=2700/layout-engine/2022-05/Group-33704.jpg" class="img-fluid" alt="Promotional Banner">
+            </section>
+            
+            <!-- Categories Grid -->
+            <section class="categories-section my-5">
+                <div class="category-grid">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+                        <div class="col">
+                            <div class="card h-100" style="background-color: #F8F8F8;" onclick="navigateTo('products')">
+                                <div class="card-body d-flex flex-column justify-content-center">
+                                    <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-12/paan-corner_web.png" class="img-fluid" alt="Paan Corner">
+                                    <h5 class="card-title mt-3">Paan Corner</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100" style="background-color: #F8F8F8;" onclick="navigateTo('products')">
+                                <div class="card-body d-flex flex-column justify-content-center">
+                                    <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-11/Slice-2_10.png" class="img-fluid" alt="Dairy, Bread & Eggs">
+                                    <h5 class="card-title mt-3">Dairy, Bread & Eggs</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                             <div class="card h-100" style="background-color: #F8F8F8;" onclick="navigateTo('products')">
+                                <div class="card-body d-flex flex-column justify-content-center">
+                                    <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-11/Slice-3_9.png" class="img-fluid" alt="Fruits & Vegetables">
+                                    <h5 class="card-title mt-3">Fruits & Vegetables</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                             <div class="card h-100" style="background-color: #F8F8F8;" onclick="navigateTo('products')">
+                                <div class="card-body d-flex flex-column justify-content-center">
+                                    <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-11/Slice-4_9.png" class="img-fluid" alt="Cold Drinks & Juices">
+                                    <h5 class="card-title mt-3">Cold Drinks & Juices</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100" style="background-color: #F8F8F8;" onclick="navigateTo('products')">
+                                <div class="card-body d-flex flex-column justify-content-center">
+                                    <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-11/Slice-5_4.png" class="img-fluid" alt="Snacks & Munchies">
+                                    <h5 class="card-title mt-3">Snacks & Munchies</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Products Section -->
+            <section class="products-section my-5">
+                <h3 class="section-title">Dairy, Bread & Eggs</h3>
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+                    <!-- Product 1 -->
+                    <div class="col">
+                        <div class="product-card">
+                            <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/10491a.jpg?ts=1688463545" class="card-img-top product-card-img" alt="Milk">
+                            <h4 class="product-title">Mother Dairy Classic Curd</h4>
+                            <p class="product-weight">400 g</p>
+                            <div class="product-footer">
+                                <p class="product-price">₹34</p>
+                                <button class="btn add-btn" onclick="addToCart('Mother Dairy Classic Curd', 34)">ADD</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="col">
+                        <div class="product-card">
+                            <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/160a.jpg?ts=1689327537" class="card-img-top product-card-img" alt="Bread">
+                            <h4 class="product-title">Harvest Gold White Bread</h4>
+                            <p class="product-weight">400 g</p>
+                            <div class="product-footer">
+                                <p class="product-price">₹40</p>
+                                <button class="btn add-btn" onclick="addToCart('Harvest Gold White Bread', 40)">ADD</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="col">
+                         <div class="product-card">
+                            <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/448095a.jpg?ts=1690814343" class="card-img-top product-card-img" alt="Paneer">
+                            <h4 class="product-title">Mother Dairy Paneer</h4>
+                            <p class="product-weight">200 g</p>
+                            <div class="product-footer">
+                                <p class="product-price">₹90</p>
+                                <button class="btn add-btn" onclick="addToCart('Mother Dairy Paneer', 90)">ADD</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 4 -->
+                     <div class="col">
+                         <div class="product-card">
+                            <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/86446a.jpg?ts=1687333553" class="card-img-top product-card-img" alt="Eggs">
+                            <h4 class="product-title">Table White Eggs (6 pieces)</h4>
+                            <p class="product-weight">6 pieces</p>
+                            <div class="product-footer">
+                                <p class="product-price">₹50</p>
+                                <button class="btn add-btn" onclick="addToCart('Table White Eggs', 50)">ADD</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 5 -->
+                     <div class="col">
+                         <div class="product-card">
+                            <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/192a.jpg?ts=1689327539" class="card-img-top product-card-img" alt="Butter">
+                            <h4 class="product-title">Amul Butter</h4>
+                            <p class="product-weight">100 g</p>
+                            <div class="product-footer">
+                                <p class="product-price">₹56</p>
+                                <button class="btn add-btn" onclick="addToCart('Amul Butter', 56)">ADD</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Products Page -->
+        <div id="products" class="page">
+            <h2 class="section-title mt-4">Paan Corner</h2>
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+                 <!-- Product Repeat for demo -->
+                <div class="col">
+                    <div class="product-card">
+                        <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/483730a.jpg?ts=1656049028" class="card-img-top product-card-img" alt="Paan">
+                        <h4 class="product-title">Signature Calcutta Paan</h4>
+                        <p class="product-weight">1 piece</p>
+                        <div class="product-footer">
+                            <p class="product-price">₹55</p>
+                            <button class="btn add-btn" onclick="addToCart('Signature Calcutta Paan', 55)">ADD</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="product-card">
+                        <img src="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/483727a.jpg?ts=1656049028" class="card-img-top product-card-img" alt="Paan">
+                        <h4 class="product-title">Chocolate Fantasy Paan</h4>
+                        <p class="product-weight">1 piece</p>
+                        <div class="product-footer">
+                            <p class="product-price">₹65</p>
+                            <button class="btn add-btn" onclick="addToCart('Chocolate Fantasy Paan', 65)">ADD</button>
+                        </div>
+                    </div>
+                </div>
+                 <!-- ... add more products as needed -->
+            </div>
+        </div>
+        
+        <!-- Cart Page -->
+        <div id="cart" class="page">
+            <h2 class="section-title mt-4">My Cart</h2>
+            <div class="row">
+                <div class="col-lg-8" id="cart-items-container">
+                    <!-- Cart items will be dynamically inserted here -->
+                     <p>Your cart is empty. Start shopping!</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="cart-summary">
+                        <h5>Bill Details</h5>
+                        <div class="d-flex justify-content-between mt-3">
+                            <span>Item Total</span>
+                            <span id="cart-subtotal">₹0</span>
+                        </div>
+                         <div class="d-flex justify-content-between text-muted">
+                            <span>Handling charge</span>
+                            <span>₹5</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted">
+                            <span>Delivery Fee</span>
+                            <span>₹15</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>To Pay</span>
+                            <span id="cart-total">₹20</span>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button class="btn cart-btn btn-lg" onclick="navigateTo('payment')">Proceed to Pay</button>
+                            <button class="btn btn-secondary btn-lg mt-2" onclick="navigateTo('payment-duplicate')">Go to Duplicate Payment Page</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Page -->
+        <div id="payment" class="page">
+            <h2 class="section-title mt-4">Choose payment method</h2>
+             <div class="row">
+                <div class="col-lg-7">
+                    <div class="payment-options">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="upi" checked>
+                            <label class="form-check-label" for="upi">
+                                <i class="fab fa-google-pay"></i>
+                                <div>
+                                    <strong>UPI</strong>
+                                    <p class="mb-0 text-muted small">Pay with any UPI app</p>
+                                </div>
+                            </label>
+                        </div>
+                         <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="card">
+                            <label class="form-check-label" for="card">
+                                <i class="far fa-credit-card"></i>
+                                <div>
+                                    <strong>Credit & Debit Cards</strong>
+                                    <p class="mb-0 text-muted small">Visa, Mastercard, RuPay & more</p>
+                                </div>
+                            </label>
+                        </div>
+                         <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="netbanking">
+                            <label class="form-check-label" for="netbanking">
+                                 <i class="fas fa-university"></i>
+                                <div>
+                                    <strong>Netbanking</strong>
+                                    <p class="mb-0 text-muted small">Pay with your bank account</p>
+                                </div>
+                            </label>
+                        </div>
+                         <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cod">
+                            <label class="form-check-label" for="cod">
+                               <i class="fas fa-money-bill-wave"></i>
+                                <div>
+                                    <strong>Cash on Delivery</strong>
+                                    <p class="mb-0 text-muted small">Pay at your doorstep</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                     <div class="cart-summary">
+                        <h5>Order Summary</h5>
+                        <div class="d-flex justify-content-between mt-3">
+                            <span>Item Total</span>
+                            <span id="payment-subtotal">₹0</span>
+                        </div>
+                         <div class="d-flex justify-content-between text-muted">
+                            <span>Handling charge</span>
+                            <span>₹5</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted">
+                            <span>Delivery Fee</span>
+                            <span>₹15</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>Total to pay</span>
+                            <span id="payment-total">₹20</span>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button class="btn cart-btn btn-lg" onclick="handlePayment()">Pay Securely</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Duplicate Payment Page -->
+        <div id="payment-duplicate" class="page">
+            <h2 class="section-title mt-4">Duplicate Payment Method</h2>
+             <div class="row">
+                <div class="col-lg-7">
+                    <div class="payment-options">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethodDuplicate" id="upi-duplicate" checked>
+                            <label class="form-check-label" for="upi-duplicate">
+                                <i class="fab fa-google-pay"></i>
+                                <div>
+                                    <strong>UPI</strong>
+                                    <p class="mb-0 text-muted small">Pay with any UPI app</p>
+                                </div>
+                            </label>
+                        </div>
+                         <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethodDuplicate" id="card-duplicate">
+                            <label class="form-check-label" for="card-duplicate">
+                                <i class="far fa-credit-card"></i>
+                                <div>
+                                    <strong>Credit & Debit Cards</strong>
+                                    <p class="mb-0 text-muted small">Visa, Mastercard, RuPay & more</p>
+                                </div>
+                            </label>
+                        </div>
+                         <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethodDuplicate" id="netbanking-duplicate">
+                            <label class="form-check-label" for="netbanking-duplicate">
+                                 <i class="fas fa-university"></i>
+                                <div>
+                                    <strong>Netbanking</strong>
+                                    <p class="mb-0 text-muted small">Pay with your bank account</p>
+                                </div>
+                            </label>
+                        </div>
+                         <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethodDuplicate" id="cod-duplicate">
+                            <label class="form-check-label" for="cod-duplicate">
+                               <i class="fas fa-money-bill-wave"></i>
+                                <div>
+                                    <strong>Cash on Delivery</strong>
+                                    <p class="mb-0 text-muted small">Pay at your doorstep</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                     <div class="cart-summary">
+                        <h5>Order Summary</h5>
+                        <div class="d-flex justify-content-between mt-3">
+                            <span>Item Total</span>
+                            <span id="payment-subtotal-duplicate">₹0</span>
+                        </div>
+                         <div class="d-flex justify-content-between text-muted">
+                            <span>Handling charge</span>
+                            <span>₹5</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted">
+                            <span>Delivery Fee</span>
+                            <span>₹15</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>Total to pay</span>
+                            <span id="payment-total-duplicate">₹20</span>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button class="btn cart-btn btn-lg" onclick="handlePayment()">Pay Securely</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Useful Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Lead</a></li>
+                    </ul>
+                </div>
+                 <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Categories</h5>
+                    <ul class="footer-links">
+                       <li><a href="#">Vegetables & Fruits</a></li>
+                       <li><a href="#">Dairy & Breakfast</a></li>
+                       <li><a href="#">Munchies</a></li>
+                       <li><a href="#">Cold Drinks & Juices</a></li>
+                       <li><a href="#">Instant & Frozen Food</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                     <h5 class="mb-3"></h5><br>
+                    <ul class="footer-links">
+                        <li><a href="#">Tea, Coffee & Health Drinks</a></li>
+                        <li><a href="#">Bakery & Biscuits</a></li>
+                        <li><a href="#">Sweet Tooth</a></li>
+                        <li><a href="#">Atta, Rice & Dal</a></li>
+                        <li><a href="#">Masala, Oil & More</a></li>
+                    </ul>
+                </div>
+                 <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Download App</h5>
+                    <img src="https://blinkit.com/d6d07436e2f46c82.png" alt="App Store" width="120" class="mb-2">
+                    <img src="https://blinkit.com/8ed033800ea38f24.png" alt="Google Play" width="120">
+                    <div class="social-links mt-4">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center text-muted small">&copy; 2024 Blinkit Commerce Pvt. Ltd. This is a clone for educational purposes.</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav d-lg-none">
+        <div class="mobile-bottom-nav-item active" data-page="home" onclick="navigateTo('home')">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="mobile-bottom-nav-item" data-page="products" onclick="navigateTo('products')">
+            <i class="fas fa-th-large"></i>
+            <span>Categories</span>
+        </div>
+        <div class="mobile-bottom-nav-item" data-page="cart" onclick="navigateTo('cart')">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Cart</span>
+        </div>
+    </nav>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // --- Page Navigation ---
+        function navigateTo(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Show the target page
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0); // Scroll to top on page change
+            
+            // Update active state for bottom nav
+            document.querySelectorAll('.mobile-bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            let targetPage = pageId;
+            if (pageId.startsWith('payment')) {
+                targetPage = 'cart'; // Highlight cart icon for payment pages
+            } else if (pageId !== 'home' && pageId !== 'products' && pageId !== 'cart') {
+                 // if it's some other page, default to home
+                 targetPage = 'home';
+            }
+            
+            const activeNavItem = document.querySelector(`.mobile-bottom-nav-item[data-page="${targetPage}"]`);
+            if(activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+
+
+            if (pageId === 'cart' || pageId === 'payment' || pageId === 'payment-duplicate') {
+                updateCartDisplay();
+            }
+        }
+
+        // --- Cart Logic ---
+        let cart = [];
+        let cartToastTimeout; // To handle multiple rapid clicks
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            
+            // Show custom toast message
+            const toastMessage = document.getElementById('add-to-cart-message');
+            toastMessage.textContent = `${name} added to cart!`;
+            toastMessage.style.display = 'block';
+
+            // Clear previous timeout if it exists to reset the timer
+            if (cartToastTimeout) {
+                clearTimeout(cartToastTimeout);
+            }
+
+            // Hide the message after 2 seconds
+            cartToastTimeout = setTimeout(() => {
+                toastMessage.style.display = 'none';
+            }, 2000);
+            
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartContainer = document.getElementById('cart-items-container');
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p>Your cart is empty. Start shopping!</p>';
+                updateTotals(0);
+                // Disable payment buttons if cart is empty
+                document.querySelector('#cart .cart-btn').disabled = true;
+                return;
+            }
+            
+            document.querySelector('#cart .cart-btn').disabled = false;
+
+
+            cartContainer.innerHTML = ''; // Clear current cart view
+            let subtotal = 0;
+
+            cart.forEach((item, index) => {
+                subtotal += item.price * item.quantity;
+                cartContainer.innerHTML += `
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+                        <div>
+                            <h6 class="mb-0">${item.name}</h6>
+                            <p class="mb-0 text-muted">₹${item.price}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity(${index}, -1)">-</button>
+                            <span class="mx-2">${item.quantity}</span>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="changeQuantity(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            updateTotals(subtotal);
+        }
+        
+        function changeQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1); // Remove item if quantity is 0 or less
+            }
+            updateCartDisplay();
+        }
+        
+        function updateTotals(subtotal) {
+            const handlingFee = 5;
+            const deliveryFee = 15;
+            const total = (subtotal > 0) ? subtotal + handlingFee + deliveryFee : 0;
+            
+            // Update cart page totals
+            document.getElementById('cart-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('cart-total').textContent = `₹${total.toFixed(2)}`;
+            
+            // Update payment page totals
+            document.getElementById('payment-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('payment-total').textContent = `₹${total.toFixed(2)}`;
+
+            // Update duplicate payment page totals
+            document.getElementById('payment-subtotal-duplicate').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('payment-total-duplicate').textContent = `₹${total.toFixed(2)}`;
+        }
+        
+        function handlePayment() {
+            if (cart.length === 0) return; // Prevent payment if cart is empty
+
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const handlingFee = 5;
+            const deliveryFee = 15;
+            const total = subtotal + handlingFee + deliveryFee;
+
+            // Generate transaction details
+            const transactionId = 'Blinkit-' + Math.random().toString().substr(2, 12).toUpperCase();
+            const paymentDateTime = new Date().toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+
+            // Populate modal
+            document.getElementById('gpay-amount').textContent = `₹${total.toFixed(2)}`;
+            document.getElementById('gpay-datetime').textContent = paymentDateTime;
+            document.getElementById('gpay-txn-id').textContent = transactionId;
+
+            // Show the modal
+            const modal = document.getElementById('gpay-success-modal');
+            modal.style.display = 'flex';
+        }
+
+        function closeGpayModalAndReset() {
+            // Hide the modal
+            const modal = document.getElementById('gpay-success-modal');
+            modal.style.display = 'none';
+
+            // Clear the cart
+            cart = [];
+
+            // Update all displays that depend on the cart
+            updateCartDisplay();
+
+            // Navigate back to the home page
+            navigateTo('home');
+        }
+        
+        function updateLocation() {
+            const newLocation = document.getElementById('location-input').value;
+            if (newLocation && newLocation.trim() !== '') {
+                document.getElementById('location-text').textContent = newLocation.trim();
+                localStorage.setItem('userLocation', newLocation.trim());
+                // Hide the modal using Bootstrap's JS API
+                const locationModalEl = document.getElementById('locationModal');
+                const modal = bootstrap.Modal.getInstance(locationModalEl);
+                modal.hide();
+            }
+        }
+
+        function initializeLocation() {
+            const savedLocation = localStorage.getItem('userLocation');
+            if (savedLocation) {
+                document.getElementById('location-text').textContent = savedLocation;
+            }
+        }
+
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeLocation();
+            navigateTo('home');
+            updateCartDisplay(); // Initial cart state
+        });
+    </script>
+</body>
+</html>
+
